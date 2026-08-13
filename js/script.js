@@ -1,6 +1,6 @@
 'use strict';
 
-/* ===== Mobile sidebar toggle ===== */
+// Mobile sidebar toggle
 const sidebar = document.querySelector('[data-sidebar]');
 const sidebarBtn = document.querySelector('[data-sidebar-btn]');
 
@@ -12,19 +12,27 @@ if (sidebarBtn) {
   });
 }
 
-/* ===== Tab navigation ===== */
+// Tab navigation
 const navLinks = document.querySelectorAll('[data-nav-link]');
-const pages = document.querySelectorAll('.page[data-page]');
+const pages = document.querySelectorAll('.page');
 
-navLinks.forEach((link) => {
+navLinks.forEach(function (link) {
   link.addEventListener('click', function () {
-    const target = this.dataset.page;
+    const targetPage = this.getAttribute('data-page');
 
-    pages.forEach((page) => {
-      page.classList.toggle('active', page.dataset.page === target);
+    // Rimuove la classe active da tutte le pagine e link
+    pages.forEach(function (page) {
+      page.classList.remove('active');
+    });
+    navLinks.forEach(function (nav) {
+      nav.classList.remove('active');
     });
 
-    navLinks.forEach((l) => l.classList.remove('active'));
+    // Aggiunge la classe active solo alla pagina e al link target
+    const targetArticle = document.querySelector(`.page[data-page="${targetPage}"]`);
+    if (targetArticle) {
+      targetArticle.classList.add('active');
+    }
     this.classList.add('active');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
